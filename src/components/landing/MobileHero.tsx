@@ -28,10 +28,8 @@ export default function MobileHero() {
   }, [lastScrollY]);
 
   const progress = Math.min(scrollY / 600, 1);
-
   const topScale = 1 - progress * 0.7;
-  const bottomScale = 0.7 + progress * 3;
-
+  const bottomScale = 0.7 + progress * 1.5;
   const translateY = progress * 50;
 
   const bagOpacity =
@@ -46,41 +44,45 @@ export default function MobileHero() {
       ? 1 + progress * 2
       : 2.2 - (progress - 0.5) * 2;
 
-  const bagRotate =
-    scrollDir === 'down' ? 180 :
-    scrollDir === 'up' ? 0 : 0;
+  const bagRotate = scrollDir === 'down' ? 180 : scrollDir === 'up' ? 0 : 0;
 
   return (
     <>
-      {/* Hero mobile fijo */}
-      <section className="fixed top-0 left-0 w-full h-screen bg-white overflow-hidden flex flex-col items-center justify-between z-10">
-        {/* Texto arriba */}
+      <section className="md:hidden fixed top-0 left-0 w-full h-screen bg-white overflow-hidden flex flex-col items-center justify-center z-10">
+        {/* Texto scroll en dos líneas */}
         <motion.div
-          className="absolute top-[10%] text-center text-2xl font-bold text-orange-500"
+          className="absolute top-[8%] text-center font-extrabold drop-shadow-[0_0_2px_#2563eb] z-20"
           style={{
-            opacity: progress < 0.5 ? 1 : 0,
-            transition: 'opacity 0.4s ease',
+            opacity: 1 - progress * 2,
+            translateX: `-${progress * 40}%`,
           }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
-          Buy from a local business
+                  <div className="flex flex-col mt-7 text-5xl text-orange-500">
+            <span>Shop at</span>
+            <span>a local business</span>
+          </div>
         </motion.div>
 
-        {/* Texto abajo */}
         <motion.div
-          className="absolute bottom-[10%] text-center text-2xl font-bold text-orange-500"
+          className="absolute top-[8%] text-center font-extrabold drop-shadow-[0_0_2px_#2563eb] z-20"
           style={{
-            opacity: progress > 0.5 ? 1 : 0,
-            transition: 'opacity 0.4s ease',
+            opacity: progress > 0.5 ? (progress - 0.5) * 2 : 0,
+            translateX: `${(1 - progress) * 40}%`,
           }}
+          transition={{ duration: 0.5, ease: 'easeInOut' }}
         >
-          And get it delivered home
+          <div className="flex flex-col mt-10 text-5xl text-orange-500">
+            <span>And receive it</span>
+            <span>at home</span>
+          </div>
         </motion.div>
 
         {/* Casas */}
         <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-between items-center py-10">
           <motion.div
             style={{ scale: topScale }}
-            className="relative w-[300px] h-[300px]"
+            className="relative w-[260px] h-[260px] mt-28"
           >
             <Image
               src="/images/hero/2.png"
@@ -92,7 +94,7 @@ export default function MobileHero() {
 
           <motion.div
             style={{ scale: bottomScale }}
-            className="relative w-[160px] h-[160px]"
+            className="relative w-[140px] h-[140px] mb-12"
           >
             <Image
               src="/images/hero/3.png"
@@ -105,27 +107,30 @@ export default function MobileHero() {
 
         {/* Bolsa */}
         <motion.div
-          className="absolute w-[50px] h-[50px]"
-          style={{
-            top: `calc(20vh + ${translateY}vh)`,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            opacity: bagOpacity,
-            scale: bagScale,
-            rotate: `${bagRotate}deg`,
-          }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
-        >
-          <Image
-            src="/images/hero/1.png"
-            alt="Bolsa"
-            fill
-            className="object-contain"
-          />
-        </motion.div>
+  className="absolute w-[50px] h-[50px]"
+  style={{
+    top: `calc(35vh + ${translateY}vh)`,
+    left: '45%',
+    transform: 'translateX(-50%)',
+    opacity: bagOpacity,
+    scale: bagScale,
+    rotate: `${bagRotate}deg`,
+  }}
+  transition={{
+    duration: 2,
+    ease: 'easeInOut',
+  }}
+>
+  <Image
+    src="/images/hero/1.png"
+    alt="Bolsa"
+    fill
+    className="object-contain"
+  />
+</motion.div>
+
       </section>
 
-      {/* Scroll area */}
       <div className="h-[200vh] bg-transparent" />
     </>
   );

@@ -35,9 +35,9 @@ export default function NavBar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            src="/images/logos/logo-full.jpg"
+            src="/images/logos/logo-full.png"
             alt="Shop From Home"
-            className="h-10 w-auto object-contain"
+            className="h-15 w-auto object-contain"
           />
         </Link>
 
