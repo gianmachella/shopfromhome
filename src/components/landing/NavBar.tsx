@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navItems = [
   { label: 'Explore', href: '/explore' },
@@ -14,7 +15,9 @@ const navItems = [
 
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -27,9 +30,20 @@ export default function NavBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 w-full bg-glass shadow-md px-6 py-4 z-50">
+    <header
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white shadow-md' : 'bg-transparent'
+      } px-6 py-4`}
+    >
       <nav className="flex items-center justify-between max-w-7xl mx-auto relative">
+        {/* Logo */}
         <Link href="/" onClick={() => setIsOpen(false)}>
           <motion.img
             initial={{ opacity: 0, y: -10 }}
@@ -41,21 +55,38 @@ export default function NavBar() {
           />
         </Link>
 
+        {/* Desktop */}
         <ul className="hidden md:flex gap-8 text-navy font-medium">
-          {navItems.map(({ label, href }) => (
-            <motion.li
-              key={label}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-            >
-              <Link href={href} className="hover:text-orange transition-colors">
-                {label}
-              </Link>
-            </motion.li>
-          ))}
+          {navItems.map(({ label, href }) => {
+            const isActive = pathname === href;
+            return (
+              <motion.li
+                key={label}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                className="relative group"
+              >
+                <Link
+                  href={href}
+                  className={`transition-colors pb-1 ${
+                    isActive ? 'text-orange' : 'hover:text-orange'
+                  }`}
+                >
+                  {label}
+                </Link>
+                <span
+                  className={`absolute left-0 -bottom-0.5 h-[2px] w-full transition-all duration-300 ${
+                    isActive
+                      ? 'bg-orange opacity-100'
+                      : 'bg-orange opacity-0 group-hover:opacity-100'
+                  }`}
+                />
+              </motion.li>
+            );
+          })}
         </ul>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden text-navy"
@@ -64,7 +95,7 @@ export default function NavBar() {
           {isOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
-        {/* Mobile Dropdown Menu */}
+        {/* Dropdown */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -80,7 +111,9 @@ export default function NavBar() {
                   key={label}
                   href={href}
                   onClick={() => setIsOpen(false)}
-                  className="hover:text-orange transition-colors"
+                  className={`hover:text-orange transition-colors ${
+                    pathname === href ? 'border-b-2 border-orange' : ''
+                  }`}
                 >
                   {label}
                 </Link>

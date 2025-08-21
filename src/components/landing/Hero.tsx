@@ -1,129 +1,67 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 export default function Hero() {
-  const [scrollY, setScrollY] = useState(0);
-  const lastScrollY = useRef(0);
-  const [scrollDir, setScrollDir] = useState<'down' | 'up' | 'none'>('none');
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-
-    const onScroll = () => {
-      const currentY = window.scrollY;
-      setScrollY(currentY);
-
-      if (currentY > lastScrollY.current) {
-        setScrollDir('down');
-      } else if (currentY < lastScrollY.current) {
-        setScrollDir('up');
-      }
-
-      lastScrollY.current = currentY;
-
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        setScrollDir('none');
-      }, 100);
-    };
-
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  const progress = Math.min(scrollY / 600, 1);
-  const leftScale = 1 - progress * 0.7;
-  const rightScale = 0.7 + progress * 3;
-  const translateX = progress * 34;
-
-  const bagOpacity =
-    progress < 0.1
-      ? progress * 10
-      : progress > 0.9
-      ? 1 - (progress - 0.9) * 10
-      : 1;
-
-  const bagScale =
-    progress < 0.5
-      ? 1 + progress * 2
-      : 2.2 - (progress - 0.5) * 2;
-
-  let bagRotate = 0;
-  if (scrollDir === 'down') bagRotate = 15;
-  else if (scrollDir === 'up') bagRotate = -15;
-
   return (
-    <>
-      {/* Hero fijo */}
-         <section className="hidden md:flex fixed top-0 left-0 w-full h-screen bg-white overflow-hidden items-center justify-center z-10">
+    <section className="relative h-screen flex items-center text-white overflow-hidden">
+      {/* Fondo */}
+      <Image
+        src="/images/hero/hero-sfh.png" // 👉 coloca aquí tu imagen de hero
+        alt="Shop From Home"
+        fill
+        priority
+        className="object-cover"
+      />
 
-{/* Textos */}
-<motion.div
-  className="absolute top-[15%] right-[5%] text-6xl font-extrabold text-orange-500 drop-shadow-[0_0_2px_#2563eb]"
-  style={{
-    opacity: 1 - progress * 2,
-      translateX: `-${progress * 40}%`,
-    fontFamily: 'Inter, sans-serif'
-  }}
-  transition={{ duration: 0.5, ease: 'easeInOut' }}
->
-  <div className="flex flex-col text-8xl text-orange-500 stroke-text">
-  <span>Shop at</span>
-  <span>a local business</span>
-</div>
+      {/* Overlay oscuro */}
+      <div className="absolute inset-0 bg-black/40" />
 
-</motion.div>
+      {/* Contenido a la izquierda */}
+      <div className="relative z-10 max-w-2xl px-6 md:px-20 text-left">
+        {/* Título */}
+        <motion.h1
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          className="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg"
+        >
+          From Home Kitchens <br /> to Your Table
+        </motion.h1>
 
-<motion.div
-  className="absolute top-[15%] left-[10%] text-5xl font-extrabold text-orange-500 drop-shadow-[0_0_2px_#2563eb]"
-  style={{
-    opacity: progress > 0.5 ? (progress - 0.5) * 2 : 0,
-      translateX: `${(1 - progress) * 40}%`,
-    fontFamily: 'Inter, sans-serif'
-  }}
-  transition={{ duration: 0.5, ease: 'easeInOut' }}
->
-    <div className="flex flex-col text-8xl text-orange-500 stroke-text">
-  <span>And receive it</span>
-  <span>at home</span>
-</div>
-</motion.div>
+        {/* Subtítulo */}
+        <motion.p
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 1 }}
+          className="mt-6 text-lg md:text-xl text-gray-100 drop-shadow"
+        >
+          Connecting local home chefs with neighbors who love authentic homemade food.
+        </motion.p>
 
-
-        {/* Casas */}
-        <div className="absolute w-full max-w-7xl mx-auto flex items-center justify-between pl-20 pr-0">
-          <motion.div style={{ scale: leftScale }} className="relative w-[660px] h-[660px]">
-            <Image src="/images/hero/2.png" alt="Casa Izquierda" fill className="object-contain" />
-          </motion.div>
-
-          <motion.div style={{ scale: rightScale }} className="relative w-[200px] h-[200px] mr-60">
-            <Image src="/images/hero/3.png" alt="Casa Derecha" fill className="object-contain" />
-          </motion.div>
-        </div>
-
-        {/* Bolsa */}
-   <motion.div
-  className="absolute w-[50px] h-[50px]"
-  style={{
-    top: 'calc(60% - 35px)',
-    left: `calc(33vw + ${translateX}vw)`,
-    opacity: bagOpacity,
-    scale: bagScale,
-    rotate: `${bagRotate}deg`,
-  }}
-  transition={{ duration: 0.6, ease: 'easeInOut' }} // más lenta y suave
->
-  <Image src="/images/hero/1.png" alt="Bolsa" fill className="object-contain" />
-</motion.div>
-
-      </section>
-
-      {/* Scroll trigger area */}
-      <div className="h-[200vh] bg-transparent" />
-    </>
+        {/* Botones */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 1 }}
+          className="mt-8 flex flex-col sm:flex-row gap-4"
+        >
+          <Link
+            href="/explore"
+            className="px-6 py-3 bg-orange rounded-full font-medium shadow-lg hover:bg-orange/90 transition"
+          >
+            Explore Food
+          </Link>
+          <Link
+            href="/signup"
+            className="px-6 py-3 bg-white text-navy rounded-full font-medium shadow-lg hover:bg-gray-100 transition"
+          >
+            Start Selling
+          </Link>
+        </motion.div>
+      </div>
+    </section>
   );
 }
