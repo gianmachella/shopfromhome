@@ -5,25 +5,25 @@ import { motion } from 'framer-motion';
 
 const benefits = [
   {
-    icon: '/images/benefits/house.png',
+    icon: '/images/icons/house.png',
     title: 'Support Local Entrepreneurs',
     description:
       'Every order helps a neighbor grow their home business and support their family.',
   },
   {
-    icon: '/images/benefits/heart.png',
+    icon: '/images/icons/heart.png',
     title: 'Authentic Homemade Flavors',
     description:
       'Enjoy food prepared with love, just like home, from local kitchens near you.',
   },
   {
-    icon: '/images/benefits/cart.png',
+    icon: '/images/icons/cart.png',
     title: 'Easy Ordering',
     description:
       'Fast and simple checkout with delivery or pickup options tailored to your needs.',
   },
   {
-    icon: '/images/benefits/bag.png',
+    icon: '/images/icons/bag.png',
     title: 'No Monthly Fees',
     description:
       'Sellers can start their journey with zero risk — only pay a small fee per order.',
