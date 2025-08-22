@@ -19,6 +19,8 @@
 }
 
 :root {
+  --background: #f9fafb; /* light */
+  --foreground: #1e293b; /* navy */
   --color-orange: #f97316;
   --color-teal: #14b8a6;
   --color-navy: #1e293b;

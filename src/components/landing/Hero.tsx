@@ -9,7 +9,7 @@ export default function Hero() {
     <section className="relative h-screen flex items-center text-white overflow-hidden">
       {/* Fondo */}
       <Image
-        src="/images/hero/hero-sfh.png"
+        src="/images/hero/hero-sfh.jpg"
         alt="Shop From Home"
         fill
         priority

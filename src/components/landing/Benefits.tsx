@@ -32,7 +32,7 @@ const benefits = [
 
 export default function Benefits() {
   return (
-    <section id='benefits' className="py-20 bg-[color:var(--color-light)] text-[color:var(--color-navy)] relative overflow-hidden">
+    <section id='benefits' className="scroll-mt-22 py-20 bg-[color:var(--color-light)] text-[color:var(--color-navy)] relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 text-center relative z-10">
         {/* Title */}
         <motion.h2

@@ -3,8 +3,26 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  const homeLinks = [
+    { label: 'Benefits', href: '#benefits' },
+    { label: 'How it Works', href: '#howitworks' },
+    { label: 'Testimonials', href: '#testimonials' },
+  ];
+
+  const pageLinks = [
+    { label: 'Home', href: '/' },
+    { label: 'Explore', href: '/explore' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
+  ];
+
+  const links = pathname === '/' ? homeLinks : pageLinks;
+
   return (
     <footer className="relative bg-[#1e293b] text-white py-16 px-6 overflow-hidden">
       {/* Background clay shapes */}
@@ -42,7 +60,7 @@ export default function Footer() {
           </p>
         </motion.div>
 
-        {/* Quick Links */}
+        {/* Dynamic Links */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -51,21 +69,13 @@ export default function Footer() {
         >
           <h3 className="font-semibold text-lg mb-4 text-white">Quick Links</h3>
           <ul className="space-y-2 text-gray-300">
-            <li>
-              <Link href="#benefits" className="hover:text-[#f97316] transition">
-                Benefits
-              </Link>
-            </li>
-            <li>
-              <Link href="#howitworks" className="hover:text-[#f97316] transition">
-                How it Works
-              </Link>
-            </li>
-            <li>
-              <Link href="#testimonials" className="hover:text-[#f97316] transition">
-                Testimonials
-              </Link>
-            </li>
+            {links.map(({ label, href }) => (
+              <li key={label}>
+                <Link href={href} className="hover:text-[#f97316] transition">
+                  {label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </motion.div>
 

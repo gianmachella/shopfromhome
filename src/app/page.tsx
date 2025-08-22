@@ -8,12 +8,10 @@ import Testimonials from '@/components/landing/Testimonials';
 export default function HomePage() {
   return (
     <>
-      <NavBar />
         <Hero />
       <Benefits />
       <HowItWorks />
       <Testimonials />
-      <Footer />
       </>
   );
 }

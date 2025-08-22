@@ -4,7 +4,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { AuthProvider } from '@/context/AuthContext';
 import { DynaPuff } from 'next/font/google';
+import Footer from "@/components/landing/Footer";
 import type { Metadata } from "next";
+import NavBar from "@/components/landing/NavBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +37,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${dynaPuff.variable}`}>
       <body className="font-sans">
+         <NavBar />
         <AuthProvider>{children}</AuthProvider>
+        <Footer />
       </body>
     </html>
   );

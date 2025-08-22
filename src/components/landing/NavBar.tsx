@@ -7,23 +7,31 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const navItems = [
-  { label: 'Home', href: '#home' },          // 👈 ahora Home apunta a #home
-  { label: 'Benefits', href: '#benefits' },
-  { label: 'How it Works', href: '#howitworks' },
-  { label: 'Testimonials', href: '#testimonials' },
-  { label: 'Contact', href: '/contact' },
-  { label: 'Explore', href: '/explore' },
-  { label: 'About', href: '/about' },
-  { label: 'Login', href: '/login' },
-];
-
 export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string | null>('#home');
   const dropdownRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const isHome = pathname === '/';
+
+  const sectionItems = isHome
+    ? [
+        { label: 'Benefits', href: '#benefits' },
+        { label: 'How it Works', href: '#howitworks' },
+        { label: 'Testimonials', href: '#testimonials' },
+      ]
+      : [];
+      
+      const pageItems = [
+    { label: 'Home', href: '/' },
+    { label: 'Explore', href: '/explore' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
+    { label: 'Login', href: '/login' },
+  ];
+
+  const navItems = [...sectionItems, ...pageItems];
 
   // Detect click outside dropdown
   useEffect(() => {
@@ -39,13 +47,19 @@ export default function NavBar() {
 
   // Detect scroll for background
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 50);
+      if (window.scrollY < 300) {
+        setActiveSection('#home'); // 👈 siempre Home arriba
+      }
+    };
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   // Observe sections in viewport
   useEffect(() => {
+    if (!isHome) return; // 👈 solo corre en home
     const sections = document.querySelectorAll('section[id]');
     const observer = new IntersectionObserver(
       (entries) => {
@@ -55,14 +69,14 @@ export default function NavBar() {
           }
         });
       },
-      { threshold: 0.5 }
+      { threshold: 0.6 }
     );
 
     sections.forEach((section) => observer.observe(section));
     return () => {
       sections.forEach((section) => observer.unobserve(section));
     };
-  }, []);
+  }, [isHome]);
 
   return (
     <header
