@@ -9,15 +9,15 @@ export default function Hero() {
     <section className="relative h-screen flex items-center text-white overflow-hidden">
       {/* Fondo */}
       <Image
-        src="/images/hero/hero-sfh.png" // 👉 coloca aquí tu imagen de hero
+        src="/images/hero/hero-sfh.png"
         alt="Shop From Home"
         fill
         priority
         className="object-cover"
       />
 
-      {/* Overlay oscuro */}
-      <div className="absolute inset-0 bg-black/40" />
+      {/* Overlay focalizado a la izquierda */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_-10%_90%,rgba(0,0,0,0.6),transparent_70%)]" />
 
       {/* Contenido a la izquierda */}
       <div className="relative z-10 max-w-2xl px-6 md:px-20 text-left">

@@ -29,7 +29,7 @@ export default function Footer() {
         >
           <div className="relative w-40 h-14">
             <Image
-              src="/images/icons/bag.png"
+              src="/images/logos/logo-full-white.png"
               alt="Shop From Home logo"
               fill
               className="object-contain"

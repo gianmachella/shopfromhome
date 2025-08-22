@@ -25,6 +25,10 @@
   --color-light: #f9fafb;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .bg-orange {
   background-color: var(--color-orange);
 }
