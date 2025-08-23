@@ -4,10 +4,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
-export default function StorePage({ params }: { params: { id: string } }) {
+// 👇 el truco: params es un Promise<{ id: string }>
+export default async function StorePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params; // 👈 desestructuramos con await
+
   // Mock de data según id
   const store = {
-    id: params.id,
+    id,
     name: "Maria's Kitchen",
     description:
       'Authentic homemade dishes made with love. From lasagna to empanadas, discover comfort food straight from my kitchen.',
